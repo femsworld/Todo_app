@@ -11,39 +11,61 @@ const title = document.getElementById("title")
 const status = document.getElementById("status")
 const date = document.getElementById("date")
 
-const addBtn = document.getElementById("add-btn").addEventListener("click", function () {
-    /* read form value, add task to the array first */
-    const taskElem = document.createElement("li")
-    // const textnode = document.createTextNode("Water");
-    // const textnode = `Task ${tasks[0].id}: ${tasks[0].title}. Status: ${tasks[0].status}`
-    const textnode = document.getElementById("title").value
-    const datenode = document.getElementById("date").value
-    const statusnode = document.getElementById("status").value
-    const addDeleteBtn = document.createElement("button")
-    addDeleteBtn.innerText = "Delete"
-    const addEditBtn = document.createElement("button")
-    addEditBtn.innerText = "Edit"
+// const addBtn = document.getElementById("add-btn").addEventListener("click", function () {
+//     /* read form value, add task to the array first */
+//     const taskElem = document.createElement("li")
+//     const textnode = document.getElementById("title").value
+//     const datenode = document.getElementById("date").value
+//     const statusnode = document.getElementById("status").value
+//     const addEditBtn = document.createElement("button")
+    // addEditBtn.innerText = "Edit"
+    // const addDeleteBtn = document.createElement("button")
+    // addDeleteBtn.innerText = "Delete"
     
-// Append the text node to the "li" node:
-    // taskElem.appendChild(textnode);
-    taskElem.innerText = `Task ${textnode}: Deadline: ${datenode}. Status: ${statusnode}.`
-    taskElem.appendChild(addDeleteBtn)
-    taskElem.appendChild(addEditBtn)
-
-// Append the "li" node to the list:
-    document.getElementById("task-container").appendChild(taskElem);
-    addDeleteBtn.addEventListener("click", deleteBtn(taskElem))
+    const addBtn = document.getElementById("add-btn").addEventListener("click", function () {
+        // read form value, add task to the array first
+        const taskElem = document.createElement("li");
+        const textnode = document.getElementById("title").value;
+        const datenode = document.getElementById("date").value;
+        const statusnode = document.getElementById("status").value;
+    
+        // create task object and add to tasks array
+            const task = {
+            id: tasks.length + 1,
+            title: textnode,
+            date: datenode,
+            status: statusnode,
+        };
+        tasks.push(task);
+    
+        // create task element with delete button
+        taskElem.innerText = `Task ${task.id}: Deadline: ${task.date}. Status: ${task.status}.`;
+        const deleteBtn = document.createElement("button");
+        deleteBtn.innerText = "Delete";
+        taskElem.appendChild(deleteBtn);
+    
+        // add task element to DOM
+        taskContainer.appendChild(taskElem);
+    
+        // add event listener to delete button
+        deleteBtn.addEventListener("click", function () {
+            // remove task from array
+            tasks.splice(task.id - 1, 1);
+    
+            // remove task element from DOM
+            // taskElem.remove();
+            deleteBtn.addEventListener("click", function() {
+                if (confirm("Are you sure you want to delete this task?")) {
+                //   taskContainer.removeChild(taskElem);
+                taskElem.remove();
+                }
+              });
+        });
+    });
     
 
-    // addDeleteBtn(taskElem)
-    // addEditBtn(taskElem)
-    // taskElem.innerText = `Task ${tasks[0].id}: ${tasks[0].title}. Status: ${tasks[0].status}`
-    // taskElem.appendChild(editBtn)
-    // taskElem.appendChild(deleteBtn)
-    // taskContainer.appendChild(taskElem)
-    // const newtask = readForm()
-    // return taskContainer
-})
+
+
 
 function deleteBtn(taskElem) {
     console.log(taskElem)
